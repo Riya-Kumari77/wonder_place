@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand text-brand fw-bold fs-4" href="/listings">
+            <i class="fa-regular fa-compass"></i> WonderPlace
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <form class="d-flex mx-auto mt-2 mt-md-0" action="/listings" method="GET" style="width: 100%; max-width: 400px;">
+                <input class="form-control me-2 rounded-pill shadow-sm" type="search" name="search" placeholder="Search destinations..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+                <button class="btn btn-brand rounded-pill shadow-sm" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+
+            <ul class="navbar-nav ms-auto mt-2 mt-md-0 fw-semibold align-items-center">
+                <li class="nav-item"><a class="nav-link text-dark" href="/listings/new">Become a Host</a></li>
+                <% if(!currentUser) { %>
+                    <li class="nav-item"><a class="nav-link text-dark" href="/signup">Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="/login">Log In</a></li>
+                <% } else { %>
+                    <li class="nav-item"><a class="nav-link text-dark" href="/my-trips">My Trips</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="/wishlist">Wishlist</a></li>
+                    <li class="nav-item"><a class="btn btn-dark ms-2 rounded-pill" href="/logout">Log Out</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

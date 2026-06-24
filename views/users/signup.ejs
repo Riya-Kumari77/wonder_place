@@ -1,0 +1,32 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row mt-5">
+    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+        <div class="card shadow-sm border-0 rounded-4 mb-5">
+            <div class="card-body p-4 p-sm-5">
+                <h2 class="card-title text-center fw-bold mb-4">Join WonderPlace</h2>
+                
+                <form action="/signup" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-semibold">Username</label>
+                        <input type="text" name="username" id="username" class="form-control rounded-pill px-3 py-2" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">Email Address</label>
+                        <input type="email" name="email" id="email" class="form-control rounded-pill px-3 py-2" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-semibold">Password</label>
+                        <input type="password" name="password" id="password" class="form-control rounded-pill px-3 py-2" required>
+                    </div>
+                    <button type="submit" class="btn btn-brand w-100 rounded-pill fs-5 py-2">Sign Up</button>
+                </form>
+                
+                <div class="text-center mt-4">
+                    <span class="text-muted">Already have an account?</span> 
+                    <a href="/login" class="text-brand fw-bold text-decoration-none">Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

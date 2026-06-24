@@ -1,0 +1,66 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row mt-4 mb-5">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="fw-bold mb-4">Edit Listing</h2>
+        
+        <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5">
+            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data">
+                
+                <div class="mb-3">
+                    <label for="title" class="form-label fw-semibold">Title</label>
+                    <input type="text" name="listing[title]" id="title" class="form-control rounded-3" value="<%= listing.title %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-semibold">Description</label>
+                    <textarea name="listing[description]" id="description" class="form-control rounded-3" rows="4" required><%= listing.description %></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <p class="form-label fw-semibold mb-1">Current Image:</p>
+                    <img src="<%= listing.image.url %>" alt="Current Image" class="img-thumbnail mb-2" style="max-width: 200px; border-radius: 10px;">
+                    <br>
+                    <label for="image" class="form-label fw-semibold">Upload New Image (Optional)</label>
+                    <input type="file" name="listing[image]" id="image" class="form-control rounded-3">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="price" class="form-label fw-semibold">Price (per night)</label>
+                        <div class="input-group">
+                            <span class="input-group-text rounded-start-3">₹</span>
+                            <input type="number" name="listing[price]" id="price" class="form-control rounded-end-3" value="<%= listing.price %>" required min="0">
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="category" class="form-label fw-semibold">Category</label>
+                        <select name="listing[category]" id="category" class="form-select rounded-3" required>
+                            <option value="Beach" <%= listing.category === 'Beach' ? 'selected' : '' %>>Beach</option>
+                            <option value="Mountain" <%= listing.category === 'Mountain' ? 'selected' : '' %>>Mountain</option>
+                            <option value="Camping" <%= listing.category === 'Camping' ? 'selected' : '' %>>Camping</option>
+                            <option value="Villa" <%= listing.category === 'Villa' ? 'selected' : '' %>>Villa</option>
+                            <option value="Apartment" <%= listing.category === 'Apartment' ? 'selected' : '' %>>Apartment</option>
+                            <option value="Luxury" <%= listing.category === 'Luxury' ? 'selected' : '' %>>Luxury</option>
+                            <option value="Budget" <%= listing.category === 'Budget' ? 'selected' : '' %>>Budget</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="country" class="form-label fw-semibold">Country</label>
+                        <input type="text" name="listing[country]" id="country" class="form-control rounded-3" value="<%= listing.country %>" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="location" class="form-label fw-semibold">City / Location</label>
+                    <input type="text" name="listing[location]" id="location" class="form-control rounded-3" value="<%= listing.location %>" required>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-dark fs-5 py-2 px-4 rounded-pill">Save Changes</button>
+                    <a href="/listings/<%= listing._id %>" class="btn btn-outline-secondary fs-5 py-2 px-4 rounded-pill">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

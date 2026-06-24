@@ -1,0 +1,66 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row mt-4 mb-5">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="fw-bold mb-4">Create a New Listing</h2>
+        
+        <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5">
+            <form method="POST" action="/listings" enctype="multipart/form-data">
+                
+                <div class="mb-3">
+                    <label for="title" class="form-label fw-semibold">Title</label>
+                    <input type="text" name="listing[title]" id="title" class="form-control rounded-3" placeholder="Add a catchy title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-semibold">Description</label>
+                    <textarea name="listing[description]" id="description" class="form-control rounded-3" rows="4" required></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Property Image</label>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"><i class="fa-solid fa-link"></i></span>
+                        <input type="url" name="listing[imageUrl]" id="imageUrl" class="form-control rounded-end-3" placeholder="Paste an image link (Unsplash, Google, etc.)">
+                    </div>
+                    <div class="text-center text-muted mb-2 fw-bold small">OR</div>
+                    <input type="file" name="listing[image]" id="image" class="form-control rounded-3">
+                    <div class="form-text">Choose one: Paste a link OR upload a file.</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="price" class="form-label fw-semibold">Price (per night)</label>
+                        <div class="input-group">
+                            <span class="input-group-text rounded-start-3">₹</span>
+                            <input type="number" name="listing[price]" id="price" class="form-control rounded-end-3" required min="0">
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="category" class="form-label fw-semibold">Category</label>
+                        <select name="listing[category]" id="category" class="form-select rounded-3" required>
+                            <option value="Beach">Beach</option>
+                            <option value="Mountain">Mountain</option>
+                            <option value="Camping">Camping</option>
+                            <option value="Villa">Villa</option>
+                            <option value="Apartment">Apartment</option>
+                            <option value="Luxury">Luxury</option>
+                            <option value="Budget">Budget</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="country" class="form-label fw-semibold">Country</label>
+                        <input type="text" name="listing[country]" id="country" class="form-control rounded-3" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="location" class="form-label fw-semibold">City / Location</label>
+                    <input type="text" name="listing[location]" id="location" class="form-control rounded-3" required>
+                </div>
+
+                <button type="submit" class="btn btn-brand fs-5 py-2 px-4 rounded-pill">Add Listing</button>
+            </form>
+        </div>
+    </div>
+</div>

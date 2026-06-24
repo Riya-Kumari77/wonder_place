@@ -1,0 +1,15 @@
+/* Adds a smooth pop-out effect when hovering over property cards */
+.listing-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.listing-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15) !important;
+}
+
+/* Custom Airbnb-style brand color */
+.text-brand { color: #ff385c; }
+.bg-brand { background-color: #ff385c; color: white; }
+.btn-brand { background-color: #ff385c; color: white; border: none; }
+.btn-brand:hover { background-color: #e33153; color: white; }
