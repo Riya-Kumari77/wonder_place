@@ -52,17 +52,18 @@ module.exports.toggleWishlist = async (req, res) => {
     const { listingId } = req.params;
     const user = await User.findById(req.user._id);
 
-    // Check if the listing is already in the user's wishlist
+    // 1. Add or Remove from the database
     if (user.wishlist.includes(listingId)) {
-        // If yes, remove it ($pull)
         await User.findByIdAndUpdate(req.user._id, { $pull: { wishlist: listingId } });
         req.flash("success", "Removed from Wishlist!");
     } else {
-        // If no, add it ($addToSet prevents duplicate entries)
         await User.findByIdAndUpdate(req.user._id, { $addToSet: { wishlist: listingId } });
         req.flash("success", "Added to Wishlist!");
     }
     
-    // Redirects the user back to exactly where they clicked the button
-    res.redirect("back"); 
+    // 2. THE FIX: Safely grab the exact URL the user came from
+    const redirectUrl = req.headers.referer || `/listings/${listingId}`;
+    
+    // 3. Send them exactly where they belong
+    res.redirect(redirectUrl); 
 };
