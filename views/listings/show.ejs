@@ -122,7 +122,7 @@
             <% if(currentUser && !isListingOwner) { %>
                 <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px;">
                     <div class="card-body p-4">
-                        <h3 class="card-title fw-bold mb-3">₹<%= listing.price %> <span
+                        <h3 class="card-title fw-bold mb-3">&#8377;<%= listing.price %> <span
                                     class="fs-6 text-muted fw-normal">/ night</span></h3>
 
                         <form action="/listings/<%= listing._id %>/bookings" method="POST">
@@ -155,7 +155,7 @@
                 <% } else if(!currentUser) { %>
                     <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px;">
                         <div class="card-body p-4 text-center">
-                            <h3 class="card-title fw-bold mb-3">₹<%= listing.price %> <span
+                            <h3 class="card-title fw-bold mb-3">&#8377;<%= listing.price %> <span
                                         class="fs-6 text-muted fw-normal">/ night</span></h3>
                             <a href="/login" class="btn btn-brand w-100 rounded-pill fs-5 py-2 fw-semibold">Log in to
                                 Reserve</a>
