@@ -1,144 +1,177 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="row mt-3 mb-5">
-    <div class="col-12 mb-4">
-        <h2 class="fw-bold"><%= listing.title %></h2>
-        <p class="text-muted mb-0"><i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %></p>
-    </div>
-
-    <div class="col-12 mb-4">
-        <img src="<%= listing.image.url %>" class="img-fluid rounded-4 shadow-sm w-100" style="max-height: 500px; object-fit: cover;" alt="<%= listing.title %>">
-    </div>
-
-    <div class="col-md-7 col-lg-8 pe-md-4">
-        
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-semibold mb-0">Hosted by @<%= listing.owner.username %></h4>
-            
-            <% if(currentUser) { %>
-                <form method="POST" action="/wishlist/<%= listing._id %>" class="m-0">
-                    <% if(currentUser.wishlist && currentUser.wishlist.includes(listing._id)) { %>
-                        <button type="submit" class="btn btn-outline-danger rounded-pill shadow-sm"><i class="fa-solid fa-heart text-danger"></i> Saved</button>
-                    <% } else { %>
-                        <button type="submit" class="btn btn-outline-dark rounded-pill shadow-sm"><i class="fa-regular fa-heart"></i> Save</button>
-                    <% } %>
-                </form>
-            <% } %>
+    <div class="row mt-3 mb-5">
+        <div class="col-12 mb-4">
+            <h2 class="fw-bold">
+                <%= listing.title %>
+            </h2>
+            <p class="text-muted mb-0"><i class="fa-solid fa-location-dot"></i>
+                <%= listing.location %>, <%= listing.country %>
+            </p>
         </div>
-        <hr>
 
-        <p class="fs-5 mb-4 text-secondary"><%= listing.description %></p>
-        <p><strong>Category:</strong> <span class="badge bg-secondary"><%= listing.category %></span></p>
-        
-        <% if(currentUser && listing.owner._id.equals(currentUser._id)) { %>
-            <div class="d-flex gap-2 mb-4">
-                <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark rounded-pill px-4 shadow-sm">Edit Property</a>
-                <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-                    <button type="submit" class="btn btn-danger rounded-pill px-4 shadow-sm">Delete</button>
-                </form>
-            </div>
-        <% } %>
-        
-        <hr>
+        <div class="col-12 mb-4">
+            <img src="<%= listing.image.url %>" class="img-fluid rounded-4 shadow-sm w-100"
+                style="max-height: 500px; object-fit: cover;" alt="<%= listing.title %>">
+        </div>
 
-        <h4 class="fw-semibold mb-3">Where you'll be</h4>
-        <div id="map" class="rounded-4 shadow-sm mb-4" style="width: 100%; height: 350px; z-index: 1;"></div>
-        
-        <hr>
+        <div class="col-md-7 col-lg-8 pe-md-4">
 
-        <h4 class="fw-semibold mb-3">Reviews</h4>
-        
-        <% if(currentUser) { %>
-            <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 bg-light">
-                <form action="/listings/<%= listing._id %>/reviews" method="POST">
-                    <div class="mb-3">
-                        <label for="rating" class="form-label fw-semibold">Rating (1-5)</label>
-                        <input type="range" class="form-range" id="rating" name="review[rating]" min="1" max="5" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="comment" class="form-label fw-semibold">Share your experience</label>
-                        <textarea class="form-control rounded-3 border-0 shadow-sm" id="comment" name="review[comment]" rows="3" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-dark rounded-pill px-4">Submit Review</button>
-                </form>
-            </div>
-        <% } %>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-semibold mb-0">Hosted by @<%= listing.owner.username %>
+                </h4>
 
-        <% if(listing.reviews.length > 0) { %>
-            <div class="row row-cols-1 row-cols-md-2 g-3">
-                <% for(let review of listing.reviews) { %>
-                    <div class="col">
-                        <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
-                            <h6 class="card-title fw-bold mb-1">@<%= review.author.username %></h6>
-                            <p class="card-text text-warning mb-2 small">
-                                <% for(let i=1; i<=5; i++) { %>
-                                    <i class="<%= i <= review.rating ? 'fa-solid' : 'fa-regular' %> fa-star"></i>
+                <% if(currentUser) { %>
+                    <form method="POST" action="/wishlist/<%= listing._id %>" class="m-0">
+                        <% if(currentUser.wishlist && currentUser.wishlist.includes(listing._id)) { %>
+                            <button type="submit" class="btn btn-outline-danger rounded-pill shadow-sm"><i
+                                    class="fa-solid fa-heart text-danger"></i> Saved</button>
+                            <% } else { %>
+                                <button type="submit" class="btn btn-outline-dark rounded-pill shadow-sm"><i
+                                        class="fa-regular fa-heart"></i> Save</button>
                                 <% } %>
-                            </p>
-                            <p class="card-text mb-3 text-secondary"><%= review.comment %></p>
-                            
-                            <% if(currentUser && review.author._id.equals(currentUser._id)) { %>
-                                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="mt-auto">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">Delete</button>
-                                </form>
-                            <% } %>
+                    </form>
+                    <% } %>
+            </div>
+            <hr>
+
+            <p class="fs-5 mb-4 text-secondary">
+                <%= listing.description %>
+            </p>
+            <p><strong>Category:</strong> <span class="badge bg-secondary">
+                    <%= listing.category %>
+                </span></p>
+
+            <% if(currentUser && listing.owner._id.equals(currentUser._id)) { %>
+                <div class="d-flex gap-2 mb-4">
+                    <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark rounded-pill px-4 shadow-sm">Edit
+                        Property</a>
+                    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                        <button type="submit" class="btn btn-danger rounded-pill px-4 shadow-sm">Delete</button>
+                    </form>
+                </div>
+                <% } %>
+
+                    <hr>
+
+                    <h4 class="fw-semibold mb-3">Where you'll be</h4>
+                    <div id="map" class="rounded-4 shadow-sm mb-4" style="width: 100%; height: 350px; z-index: 1;">
+                    </div>
+
+                    <hr>
+
+                    <h4 class="fw-semibold mb-3">Reviews</h4>
+
+                    <% if(currentUser) { %>
+                        <div class="card border-0 shadow-sm rounded-4 mb-4 p-4 bg-light">
+                            <form action="/listings/<%= listing._id %>/reviews" method="POST">
+                                <div class="mb-3">
+                                    <label for="rating" class="form-label fw-semibold">Rating (1-5)</label>
+                                    <input type="range" class="form-range" id="rating" name="review[rating]" min="1"
+                                        max="5" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label fw-semibold">Share your experience</label>
+                                    <textarea class="form-control rounded-3 border-0 shadow-sm" id="comment"
+                                        name="review[comment]" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-dark rounded-pill px-4">Submit Review</button>
+                            </form>
+                        </div>
+                        <% } %>
+
+                            <% if(listing.reviews.length> 0) { %>
+                                <div class="row row-cols-1 row-cols-md-2 g-3">
+                                    <% for(let review of listing.reviews) { %>
+                                        <div class="col">
+                                            <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
+                                                <h6 class="card-title fw-bold mb-1">@<%= review.author.username %>
+                                                </h6>
+                                                <p class="card-text text-warning mb-2 small">
+                                                    <% for(let i=1; i<=5; i++) { %>
+                                                        <i
+                                                            class="<%= i <= review.rating ? 'fa-solid' : 'fa-regular' %> fa-star"></i>
+                                                        <% } %>
+                                                </p>
+                                                <p class="card-text mb-3 text-secondary">
+                                                    <%= review.comment %>
+                                                </p>
+
+                                                <% if(currentUser && review.author._id.equals(currentUser._id)) { %>
+                                                    <form method="POST"
+                                                        action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                                        class="mt-auto">
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger rounded-pill">Delete</button>
+                                                    </form>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <% } else { %>
+                                    <p class="text-muted">No reviews yet. Be the first to review!</p>
+                                    <% } %>
+        </div>
+
+        <div class="col-md-5 col-lg-4 mt-4 mt-md-0">
+            <% if(currentUser && !listing.owner._id.equals(currentUser._id)) { %>
+                <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px;">
+                    <div class="card-body p-4">
+                        <h3 class="card-title fw-bold mb-3">₹<%= listing.price %> <span
+                                    class="fs-6 text-muted fw-normal">/ night</span></h3>
+
+                        <form action="/listings/<%= listing._id %>/bookings" method="POST">
+                            <div class="border rounded-4 mb-3 p-3">
+                                <div class="mb-3 border-bottom pb-2">
+                                    <label for="checkIn" class="form-label text-uppercase fw-bold text-muted mb-1"
+                                        style="font-size: 0.75rem;">Check-in</label>
+                                    <input type="date" class="form-control border-0 p-0 shadow-none fw-semibold"
+                                        id="checkIn" name="checkIn" required>
+                                </div>
+                                <div class="mb-3 border-bottom pb-2">
+                                    <label for="checkOut" class="form-label text-uppercase fw-bold text-muted mb-1"
+                                        style="font-size: 0.75rem;">Checkout</label>
+                                    <input type="date" class="form-control border-0 p-0 shadow-none fw-semibold"
+                                        id="checkOut" name="checkOut" required>
+                                </div>
+                                <div>
+                                    <label for="guests" class="form-label text-uppercase fw-bold text-muted mb-1"
+                                        style="font-size: 0.75rem;">Guests</label>
+                                    <input type="number" class="form-control border-0 p-0 shadow-none fw-semibold"
+                                        id="guests" name="guests" min="1" max="10" value="1" required>
+                                </div>
+                            </div>
+                            <button type="submit"
+                                class="btn btn-brand w-100 rounded-pill fs-5 py-2 fw-semibold">Reserve</button>
+                        </form>
+                        <p class="text-center text-muted mt-3 small mb-0">You won't be charged yet</p>
+                    </div>
+                </div>
+                <% } else if(!currentUser) { %>
+                    <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px;">
+                        <div class="card-body p-4 text-center">
+                            <h3 class="card-title fw-bold mb-3">₹<%= listing.price %> <span
+                                        class="fs-6 text-muted fw-normal">/ night</span></h3>
+                            <a href="/login" class="btn btn-brand w-100 rounded-pill fs-5 py-2 fw-semibold">Log in to
+                                Reserve</a>
                         </div>
                     </div>
-                <% } %>
-            </div>
-        <% } else { %>
-            <p class="text-muted">No reviews yet. Be the first to review!</p>
-        <% } %>
+                    <% } %>
+        </div>
     </div>
 
-    <div class="col-md-5 col-lg-4 mt-4 mt-md-0">
-        <% if(currentUser && !listing.owner._id.equals(currentUser._id)) { %>
-            <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px;">
-                <div class="card-body p-4">
-                    <h3 class="card-title fw-bold mb-3">₹<%= listing.price %> <span class="fs-6 text-muted fw-normal">/ night</span></h3>
-                    
-                    <form action="/listings/<%= listing._id %>/bookings" method="POST">
-                        <div class="border rounded-4 mb-3 p-3">
-                            <div class="mb-3 border-bottom pb-2">
-                                <label for="checkIn" class="form-label text-uppercase fw-bold text-muted mb-1" style="font-size: 0.75rem;">Check-in</label>
-                                <input type="date" class="form-control border-0 p-0 shadow-none fw-semibold" id="checkIn" name="checkIn" required>
-                            </div>
-                            <div class="mb-3 border-bottom pb-2">
-                                <label for="checkOut" class="form-label text-uppercase fw-bold text-muted mb-1" style="font-size: 0.75rem;">Checkout</label>
-                                <input type="date" class="form-control border-0 p-0 shadow-none fw-semibold" id="checkOut" name="checkOut" required>
-                            </div>
-                            <div>
-                                <label for="guests" class="form-label text-uppercase fw-bold text-muted mb-1" style="font-size: 0.75rem;">Guests</label>
-                                <input type="number" class="form-control border-0 p-0 shadow-none fw-semibold" id="guests" name="guests" min="1" max="10" value="1" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-brand w-100 rounded-pill fs-5 py-2 fw-semibold">Reserve</button>
-                    </form>
-                    <p class="text-center text-muted mt-3 small mb-0">You won't be charged yet</p>
-                </div>
-            </div>
-        <% } else if(!currentUser) { %>
-            <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px;">
-                <div class="card-body p-4 text-center">
-                    <h3 class="card-title fw-bold mb-3">₹<%= listing.price %> <span class="fs-6 text-muted fw-normal">/ night</span></h3>
-                    <a href="/login" class="btn btn-brand w-100 rounded-pill fs-5 py-2 fw-semibold">Log in to Reserve</a>
-                </div>
-            </div>
-        <% } %>
-    </div>
-</div>
-
-<script>
-    const listingGeometry = <%- JSON.stringify(listing.geometry.coordinates) %>;
-    const listingTitle = <%- JSON.stringify(listing.title) %>;
-    let lat = listingGeometry[1];
-    let lng = listingGeometry[0];
-    const map = L.map('map').setView([lat, lng], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-    const popupTitle = L.DomUtil.create("h6", "mb-0 fw-bold");
-    popupTitle.textContent = listingTitle;
-    L.marker([lat, lng]).addTo(map).bindPopup(popupTitle);
-</script>
+    <script>
+        const listingGeometry = <% - JSON.stringify(listing.geometry.coordinates) %>;
+        const listingTitle = <% - JSON.stringify(listing.title) %>;
+        let lat = listingGeometry[1];
+        let lng = listingGeometry[0];
+        const map = L.map('map').setView([lat, lng], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        const popupTitle = L.DomUtil.create("h6", "mb-0 fw-bold");
+        popupTitle.textContent = listingTitle;
+        L.marker([lat, lng]).addTo(map).bindPopup(popupTitle);
+    </script>
